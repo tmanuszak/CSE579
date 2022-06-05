@@ -1,0 +1,11 @@
+clingo version 5.4.0
+Reading from p3.txt
+Solving...
+Answer: 1
+p
+SATISFIABLE
+
+Models       : 1
+Calls        : 1
+Time         : 0.026s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.026s
