@@ -1,0 +1,13 @@
+8{queen(X,Y): X=1..8, Y=1..8}8.
+
+% queen cant be in middle 4x4
+:- queen(X,Y), X=3..6, Y=3..6.
+
+% one queen per row
+{queen(R,1..8)}=1 :- R=1..8.
+
+% one queen per column
+:- queen(R1, C), queen(R2, C), R1!=R2.
+
+% no queens diagonal from each other
+:- queen(R1,C1), queen(R2,C2), R1!=R2, |R1-R2|==|C1-C2|.

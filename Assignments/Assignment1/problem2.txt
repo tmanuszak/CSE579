@@ -1,0 +1,10 @@
+n{queen(X,Y): X=1..n, Y=1..n}n.
+
+% one queen per row
+{queen(R,1..n)}=1 :- R=1..n.
+
+% one queen per column
+:- queen(R1, C), queen(R2, C), R1!=R2.
+
+% no queens diagonal from each other
+:- queen(R1,C1), queen(R2,C2), R1!=R2, |R1-R2|=|C1-C2|.

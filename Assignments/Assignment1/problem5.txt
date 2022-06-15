@@ -1,0 +1,28 @@
+% the facts to represent the given numbers are provided below 
+a(1,3,7). a(1,7,8).
+a(2,2,2). a(2,8,4).
+a(3,1,8). a(3,3,4). a(3,5,2). a(3,7,5). a(3,9,1).
+a(4,5,7).
+a(5,3,8). a(5,4,3). a(5,5,6). a(5,6,4). a(5,7,2).
+a(6,5,9).
+a(7,1,3). a(7,3,2). a(7,5,8). a(7,7,7). a(7,9,4).
+a(8,2,7). a(8,8,8).
+a(9,3,6). a(9,7,9). 
+
+% write the remaining part of the clingo program below
+% Assign each number to each box
+{ a(X,Y,N) : X=1..9, Y=1..9, X1<=X, X<=X1+2, Y1<=Y, Y<=Y1+2 } = 1
+        :- N=1..9, X1=3*(0..2)+1, Y1=3*(0..2)+1.
+
+% one value per square
+:- a(X,Y,N1), a(X,Y,N2), N1!=N2.
+
+% same number cant be assigned twice in one row
+:- a(X,Y1,N), a(X,Y2,N), Y1!=Y2.
+
+% same number cant be assigned twice in one column
+:- a(X1,Y,N), a(X2,Y,N), X1!=X2.
+
+% The assigned value must be different from the assignment a multiple of 3 squares away
+% We dont need to worry about strictly horiz or vert offset because of the rules above.
+:- a(X1,Y1,N), a(X2,Y2,N), X1\3==X2\3, Y1\3==Y2\3, X1!=X2, Y1!=Y2.

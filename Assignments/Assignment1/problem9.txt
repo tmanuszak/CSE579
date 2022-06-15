@@ -1,0 +1,6 @@
+% partition the set {1,...,n} into k subsets
+% place each number in a bucket
+{in(I,1..k)} = 1 :- I=1..n.
+
+% the sum of two numbers in a bucket (that are different) cant be in the bucket
+:- in(N1,B), in(N2,B), in(N1+N2,B), N1!=N2.

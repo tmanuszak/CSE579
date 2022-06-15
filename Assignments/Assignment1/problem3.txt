@@ -1,0 +1,17 @@
+% Assign each number to each box
+{ a(X,Y,N) : X=1..9, Y=1..9, X1<=X, X<=X1+2, Y1<=Y, Y<=Y1+2 } = 1
+        :- N=1..9, X1=3*(0..2)+1, Y1=3*(0..2)+1.
+
+% one value per square
+:- a(X,Y,N1), a(X,Y,N2), N1!=N2.
+
+% same number cant be assigned twice in one row
+:- a(X,Y1,N), a(X,Y2,N), Y1!=Y2.
+
+% same number cant be assigned twice in one column
+:- a(X1,Y,N), a(X2,Y,N), X1!=X2.
+
+% instance
+a(1,1,8). a(2,3,3). a(2,4,6). a(3,2,7). a(3,5,9). a(3,7,2).
+a(4,2,5). a(4,6,7). a(5,5,4). a(5,6,5). a(5,7,7). a(6,4,1). a(6,8,3).
+a(7,3,1). a(7,8,6). a(7,9,8). a(8,3,8). a(8,4,5). a(8,8,1). a(9,2,9). a(9,7,4).

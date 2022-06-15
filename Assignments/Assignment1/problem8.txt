@@ -1,0 +1,5 @@
+{bishop(1..n,1..n)}.
+:- bishop(X1,Y1), bishop (X2,Y2), X1!=X2, |X1-X2|==|Y1-Y2|.
+
+% count number of bishops in model
+#maximize{1,X,Y: bishop(X,Y)}.
