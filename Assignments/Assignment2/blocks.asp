@@ -40,14 +40,12 @@ on(B,L,T+1) :- move(B,L,T).
 % a block can't be moved onto a block that is being moved also
 :- move(B,B1,T), move(B1,L,T).
 
-% a block cannot be on itself
-:- on(B,B,T).
-
-% No circular stacking of blocks
-above(B,table,T) :- on(B,table,T).
-above(B1,B,T) :- above(B,table,T), on(B1,B,T), block(B;B1).
-above(B2,B1,T) :- above(B1,B,T), on(B2,B1,T), block(B1;B2;B).
-:- not {above(B,L,T): location(L)}=1, block(B), T=0..m.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5%%%%%%%%%%%%%%%%%%%%%%%%%
+% A serializable plan cannot move A onto a block B if anything is
+% on B, which was allowed in unserializable plans if you move the
+% block on B at the same time stamp.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+:- move(A, B, T), on(C, B, T), block(B), A != C.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % domain independent axioms
@@ -65,4 +63,7 @@ above(B2,B1,T) :- above(B1,B,T), on(B2,B1,T), block(B1;B2;B).
 % commonsense law of inertia
 {on(B,L,T+1)} :- on(B,L,T), T < m.
 
-#show above/3.
+% Minimize the number of moves
+#minimize{1, B, L, T: move(B, L, T)}.
+
+#show move/3.
