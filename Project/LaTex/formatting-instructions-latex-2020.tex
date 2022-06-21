@@ -1,0 +1,221 @@
+\def\year{2020}\relax
+%File: formatting-instruction.tex
+\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
+\usepackage{aaai20}  % DO NOT CHANGE THIS
+\usepackage{times}  % DO NOT CHANGE THIS
+\usepackage{helvet} % DO NOT CHANGE THIS
+\usepackage{courier}  % DO NOT CHANGE THIS
+\usepackage[hyphens]{url}  % DO NOT CHANGE THIS
+\usepackage{graphicx} % DO NOT CHANGE THIS
+\urlstyle{rm} % DO NOT CHANGE THIS
+\def\UrlFont{\rm}  % DO NOT CHANGE THIS
+\usepackage{graphicx}  % DO NOT CHANGE THIS
+\frenchspacing  % DO NOT CHANGE THIS
+\setlength{\pdfpagewidth}{8.5in}  % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{11in}  % DO NOT CHANGE THIS
+%\nocopyright
+%PDF Info Is REQUIRED.
+% For /Author, add all authors within the parentheses, separated by commas. No accents or commands.
+% For /Title, add Title in Mixed Case. No accents or commands. Retain the parentheses.
+ \pdfinfo{
+/Title (AAAI Press Formatting Instructions for Authors Using LaTeX -- A Guide)
+/Author (AAAI Press Staff, Pater Patel Schneider, Sunil Issar, J. Scott Penberthy, George Ferguson, Hans Guesgen)
+} %Leave this	
+% /Title ()
+% Put your actual complete title (no codes, scripts, shortcuts, or LaTeX commands) within the parentheses in mixed case
+% Leave the space between \Title and the beginning parenthesis alone
+% /Author ()
+% Put your actual complete list of authors (no codes, scripts, shortcuts, or LaTeX commands) within the parentheses in mixed case. 
+% Each author should be only by a comma. If the name contains accents, remove them. If there are any LaTeX commands, 
+% remove them. 
+
+% DISALLOWED PACKAGES
+% \usepackage{authblk} -- This package is specifically forbidden
+% \usepackage{balance} -- This package is specifically forbidden
+% \usepackage{caption} -- This package is specifically forbidden
+% \usepackage{color (if used in text)
+% \usepackage{CJK} -- This package is specifically forbidden
+% \usepackage{float} -- This package is specifically forbidden
+% \usepackage{flushend} -- This package is specifically forbidden
+% \usepackage{fontenc} -- This package is specifically forbidden
+% \usepackage{fullpage} -- This package is specifically forbidden
+% \usepackage{geometry} -- This package is specifically forbidden
+% \usepackage{grffile} -- This package is specifically forbidden
+% \usepackage{hyperref} -- This package is specifically forbidden
+% \usepackage{navigator} -- This package is specifically forbidden
+% (or any other package that embeds links such as navigator or hyperref)
+% \indentfirst} -- This package is specifically forbidden
+% \layout} -- This package is specifically forbidden
+% \multicol} -- This package is specifically forbidden
+% \nameref} -- This package is specifically forbidden
+% \natbib} -- This package is specifically forbidden -- use the following workaround:
+% \usepackage{savetrees} -- This package is specifically forbidden
+% \usepackage{setspace} -- This package is specifically forbidden
+% \usepackage{stfloats} -- This package is specifically forbidden
+% \usepackage{tabu} -- This package is specifically forbidden
+% \usepackage{titlesec} -- This package is specifically forbidden
+% \usepackage{tocbibind} -- This package is specifically forbidden
+% \usepackage{ulem} -- This package is specifically forbidden
+% \usepackage{wrapfig} -- This package is specifically forbidden
+% DISALLOWED COMMANDS
+% \nocopyright -- Your paper will not be published if you use this command
+% \addtolength -- This command may not be used
+% \balance -- This command may not be used
+% \baselinestretch -- Your paper will not be published if you use this command
+% \clearpage -- No page breaks of any kind may be used for the final version of your paper
+% \columnsep -- This command may not be used
+% \newpage -- No page breaks of any kind may be used for the final version of your paper
+% \pagebreak -- No page breaks of any kind may be used for the final version of your paperr
+% \pagestyle -- This command may not be used
+% \tiny -- This is not an acceptable font size.
+% \vspace{- -- No negative value may be used in proximity of a caption, figure, table, section, subsection, subsubsection, or reference
+% \vskip{- -- No negative value may be used to alter spacing above or below a caption, figure, table, section, subsection, subsubsection, or reference
+
+\setcounter{secnumdepth}{0} %May be changed to 1 or 2 if section numbers are desired.
+
+% The file aaai20.sty is the style file for AAAI Press 
+% proceedings, working notes, and technical reports.
+%
+\setlength\titlebox{2.5in} % If your paper contains an overfull \vbox too high warning at the beginning of the document, use this
+% command to correct it. You may not alter the value below 2.5 in
+\title{An Exploration in Answer Set Programming Applied to Autonomous Warehouses}
+%Your title must be in mixed case, not sentence case. 
+% That means all verbs (including short verbs like be, is, using,and go), 
+% nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
+% articles, conjunctions, and prepositions are lower case unless they
+% directly follow a colon or long dash
+\author{Trey Manuszak\\
+Arizona State University\\ %If you have multiple authors and multiple affiliations
+% use superscripts in text and roman font to identify them. For example, Sunil Issar,\textsuperscript{\rm 2} J. Scott Penberthy\textsuperscript{\rm 3} George Ferguson,\textsuperscript{\rm 4} Hans Guesgen\textsuperscript{\rm 5}. Note that the comma should be placed BEFORE the superscript for optimum readability
+Tempe, Arizona\\
+tmanusza@asu.edu % email address must be in roman text type, not monospace or sans serif
+}
+ \begin{document}
+
+\maketitle
+
+\begin{abstract}
+Automated warehouses provide many benefits to managing one's supply chain. Those are including, but not limited to, employee safety, minimal product mishandling and displacement, increased traceability and auditability, and increased productivity. Coordinating this automation requires a program that can quickly determine optimal, or as close to optimal as possible, scheduling of the warehouse robotics. In this work, we collect requirements and limitations of an autonomous warehouse, develop a scheduling program using answer set programming, while implementing techniques from the knowledge representation and reasoning field of aritificial intelligence to generate a time-optimized course of action for the delivery of product.
+\end{abstract}
+
+\section{Problem Statement}
+Finding an opimal schedule of robots delivering products in an automated warehouse is known to be a problem in the $\mathcal{NP}$-hard complexity class \cite{LENSTRA1977343}. There have been many attempts to solve this problem \shortcite{survey,basile2012hybrid1,basile2012hybrid2,atieh2016performance}. Answer set programming (ASP) is designed to solve $\mathcal{NP}$-hard search problems. Of the many different ASP languages, we chose to work with \texttt{clingo} to build an automated warehouse scheduler to deliver product to picking stations \cite{clingo}.
+
+To develop an automated warehouse scheduling program we must define the constraints of the warehouse, warehouse robotics, products, shelving, and orders, then generate a time optimized route for the robots to deliver products to the picking stations. The constraints we use come from Google's Answer Set Programming Challenge 2019 and can be generally summed up as follows \cite{gasp}:
+
+\begin{itemize}
+\item The warehouse consists of tiles, some of which are highway tiles which have their own certain limitations,
+\item A robot can only move vetically or horizontally, they can move under shelves if they are not carrying one already, they can set shelves down on normal tiles, and they can place product in picking stations that they are next to,
+\item Products must be on a shelf or at a picking station,
+\item Shelves may only be placed on normal tiles,
+\item Orders consist of items to be placed at a specific picking station,
+\item A picking station must be on a normal tile and cannot be moved.
+\end{itemize}
+
+The program, when given a state of the warehouse and the orders to be completed, generates a schedule for completing the orders in as little time as possible. An order that is assigned to a picking station is completed, if all items in the order are delivered to that picking station. The schedule must correctly complete all orders. The program should find a schedule completing all orders in $T$ steps, where no schedule is possible in less than $T$ steps. It is important to note that the constraints on movement of the robots is not serializeable. That is, we are allowed to move a robot $R_1$, to a space just previously occupied by robot $R_2$, as long as robot $R_2$ is also moving to a diffirent space than just previously occupied by robot $R_1$.
+
+\section{Current Progress and Difficulties}
+
+With the constraints, we are also supplied with an expected input format. So far, we have programmed the initialization of the warehouse facts and fluents from the expected input format. We have also developed and definied what is necessary to allow movement of the warehouse robots according to the movement constraints and inter robot behaviors defined in the original problem. 
+
+This was originally attempted without the knowledge of reasoning about actions concepts recently acquired. It was difficult and unltimately unsuccessful to get the actions of robot movement correct without these skills. Trying to get the default behavior of the nonexistence of robot movement was challenging to implement. However, applying these new concepts made it much more effective to define the actions of robot movement and interaction, while adhering to the constraints. So, what we have currently are robots moving around a warehouse in a correct manner and this can be seen by executing the program in the Appendix on different warehouse initializations. 
+
+We tested for correct manner by testing the correctness of low complexity robot movement and gradually increasing the complexity if previous tests work. To start, we tested the correct initialization of the warehouse objects on the provided test cases. Once we verified the correctness of the initializations, we created a small 2x2 tile warehouse with just one robot. Once we verified the correctness that the robot could move in all valid directions, we introduced a second robot and tested for correctness of the constraints between robots. Specifically, the completed tasks are as follows:
+\begin{itemize}
+\item Create node facts,
+\item Create highway facts,
+\item Create robot facts and fluent,
+\item Create shelf facts and fluent,
+\item Create product facts,
+\item Create picking station facts,
+\item Create order facts and fluent,
+\item Define move operations and constraints (only accounting for robots in the warehouse),
+\item Generate exogenous robot movement occurrences,
+\item Define the direct effect of a robot movement and the state change of the robot's location,
+\item Define the uniqueness and existance of a robot's location,
+\item Define the law of intertia for a robot's location,
+\item Constrain the robot to one movement per timestep.
+\end{itemize}
+
+\section{Future Tasks and Plan}
+
+There are still many important tasks to be completed. We still have to complete the constraints and interaction between robots and other warehouse objects. We also still have to implement the occurrences other than movement available for a robot to make, such as picking up and setting down shelves, and delivering product. Doing this will require the development of more exogenous actions, definitions of uniqueness, and application of laws of inertia. We plan to just as before, implement one action at a time and test the behavior on low complexity. Once each low level of complexity is correct, further testing on higher complexity instances and interactions will be performed until there is suffucient confidence in the implementation. Specifically, the tasks that are yet to be completed are as follows:
+\begin{itemize}
+\item Generate exogenous actions for pickup and putting down shelves, and delivering product,
+\item Define constrains for interactions between robots and shelves,
+\item Define the direct effects between carried shelves and movement, as well as, the delivery of product and orders,
+\item Implement the uniqueness and existence of shelves, products, and orders,
+\item Define the law of inertia for shelves, products, and orders,
+\item Implement a minimization function with respect to the time step.
+\end{itemize}
+
+
+\bibliographystyle{aaai} 
+\bibliography{bib1}
+\newpage
+\section{Appendix} \label{sec:appendix}
+\begin{quote}
+\begin{scriptsize}\begin{verbatim}
+%%%% OBJECTS AND LOCATIONS %%%%
+% Here we define objects and object location (if it moves)                                                                                                                                                                                                                                                                    % node (cell in warehouse)
+node(N,X,Y) :- init(object(node,N), value(at, pair(X,Y))).                                                                                                                                                                                                                                                                    
+
+% highway (fast cell in warehouse)
+highway(H,X,Y) :- init(object(highway,H), value(at, pair(X,Y))).                                                                                                                                                                                                                                                              
+
+% picking station
+pickStation(P,X,Y) :- init(object(pickingStation, P), 
+  value(at, pair(X,Y))).                                                                                                                                                                                                                                                  
+
+% robot and robot's location
+robot(R) :- init(object(robot, R), value(at, pair(X,Y))). 
+robotLocation(R,X,Y,0) :- init(object(robot,R), value(at, pair(X,Y))), 
+  node(N,X,Y). 
+
+% shelf
+shelf(S) :- init(object(shelf, S), value(at, pair(X,Y))).
+shelfLocation(S,X,Y,0) :- init(object(shelf, S), value(at, pair(X,Y))), 
+  node(N,X,Y).    
+                                                                                                                                             
+% products
+productOnShelf(P,S,U,0) :- init(object(product, P), value(on, pair(S,U))).
+
+% order
+order(O,P,U,0) :- init(object(order, O), value(line, pair(P,U))).
+deliverTo(O,P) :- init(object(order, O), value(pickingStation,P)).
+
+%%%% MOVING %%%%
+% move options
+move(1,0; -1,0; 0,1; 0,-1).
+
+% must be in the warehouse
+:- robotLocation(R,X,Y,T), not node(_, X, Y).
+
+% one robot per node
+:- robotLocation(R1,X,Y,T), robotLocation(R2,X,Y,T), R1!=R2.
+
+% robot movement is exogenous
+{occurs(object(robot,R), move(X,Y), T)} :- robot(R), move(X,Y), T=1..m.
+
+% direct effect
+robotLocation(R,X + X1,Y + Y1,T) :- occurs(object(robot,R), move(X1,Y1), T), 
+  robotLocation(R,X,Y,T-1), T=1..m.
+
+% uniqueness and existence
+:- not {robotLocation(R,X,Y,T):node(N,X,Y)}=1, robot(R), T=1..m.
+
+% robots cant switch nodes (note, serializability is not required)
+:- robotLocation(R1,X1,Y1,T), robotLocation(R2,X2,Y2,T),
+  robotLocation(R1,X2,Y2,T-1), robotLocation(R2,X1,Y1,T-1), R1!=R2.
+
+
+%%%% LAWS OF INERTIA %%%%
+{robotLocation(R,X,Y,T)} :- robotLocation(R,X,Y,T-1), T=1..m.
+
+%%%% AXIOMS %%%%
+% robot can only do one thing at a time
+:- occurs(object(robot, R), A1, T), occurs(object(robot, R), A2, T), A1!=A2.
+\end{verbatim}\end{scriptsize}
+\end{quote}
+
+\end{document}
