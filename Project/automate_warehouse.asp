@@ -41,7 +41,8 @@ move(1,0; -1,0; 0,1; 0,-1).
 {occurs(object(robot,R), move(X,Y), T)} :- robot(R), move(X,Y), T=1..m.
 
 % direct effect
-robotLocation(R,X + X1,Y + Y1,T) :- occurs(object(robot,R), move(X1,Y1), T), robotLocation(R,X,Y,T-1), T=1..m.
+robotLocation(R,X + X1,Y + Y1,T) :- occurs(object(robot,R), move(X1,Y1), T), 
+  robotLocation(R,X,Y,T-1), T=1..m.
 
 % uniqueness and existence
 :- not {robotLocation(R,X,Y,T):node(N,X,Y)}=1, robot(R), T=1..m.
@@ -50,6 +51,12 @@ robotLocation(R,X + X1,Y + Y1,T) :- occurs(object(robot,R), move(X1,Y1), T), rob
 :- robotLocation(R1,X1,Y1,T), robotLocation(R2,X2,Y2,T),
   robotLocation(R1,X2,Y2,T-1), robotLocation(R2,X1,Y1,T-1), R1!=R2.
 
+%%%%%%%%%%%%%% SHELVING %%%%%%%%%%%%%%%%%%%
+% Shelf can only be on one node
+:- 2{shelfLocation(S,X,Y,T):node(N,X,Y)}, shelf(S), T=0..m.
+
+% Max one shelf per node
+:- 2{shelfLocation(S,X,Y,T):shelf(S)}, node(N,X,Y), T=0..m.
 
 %%%%%%%%%%%%%%%% LAWS OF INERTIA %%%%%%%%%%%%%%%%%%%%
 {robotLocation(R,X,Y,T)} :- robotLocation(R,X,Y,T-1), T=1..m.
