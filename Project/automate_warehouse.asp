@@ -92,7 +92,17 @@ carry(R,S,T) :- pickup(R,S,T), T=1..m.
 
 %%%%%%%%%%% PUTDOWN %%%%%%%%%%%%%%%%
 % putdown is exogenous
-%{putdown(R,S,T):shelf(S)}1 :- robot(R), T=1..m.
+{putdown(R,S,T):shelf(S)}1 :- robot(R), T=1..m.
+occurs(object(robot,R), putdown, T) :- putdown(R,S,T).
+
+% cant be put down by 2 different robots
+:- 2{putdown(R,S,T):robot(R)}, shelf(S), T=1..m.
+
+% Can only put down a shelf if it has one
+:- putdown(R,S,T), not carry(R,S,T-1), T=1..m. 
+
+% if the shelf is put down, then it is not being carried.
+not carry(R,S,T) :- putdown(R,S,T), T=1..m.
 
 %%%%%%%%%%%%%%%% LAWS OF INERTIA %%%%%%%%%%%%%%%%%%%%
 {robotLocation(R,X,Y,T)} :- robotLocation(R,X,Y,T-1), T=1..m.
