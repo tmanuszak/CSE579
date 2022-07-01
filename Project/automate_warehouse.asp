@@ -52,14 +52,53 @@ robotLocation(R,X + X1,Y + Y1,T) :- occurs(object(robot,R), move(X1,Y1), T),
   robotLocation(R1,X2,Y2,T-1), robotLocation(R2,X1,Y1,T-1), R1!=R2.
 
 %%%%%%%%%%%%%% SHELVING %%%%%%%%%%%%%%%%%%%
-% Shelf can only be on one node
-:- 2{shelfLocation(S,X,Y,T):node(N,X,Y)}, shelf(S), T=0..m.
+% shelves cant be on highways, unless carried
+:- shelfLocation(S,X,Y,T), highway(H,X,Y), not carry(R,S,T), robot(R), T=1..m.
 
-% Max one shelf per node
-:- 2{shelfLocation(S,X,Y,T):shelf(S)}, node(N,X,Y), T=0..m.
+% shelf cant be on two different nodes
+:- 2{shelfLocation(S,X,Y,T):node(N,X,Y)}, shelf(S), T=1..m.
+
+% No two shelves on one node
+:- 2{shelfLocation(S,X,Y,T):shelf(S)}, node(N,X,Y), T=1..m.
+
+% no shelf carried by two different robots
+:- 2{carry(R,S,T):robot(R)}, shelf(S), T=1..m.
+
+% direct effect of carried movement
+shelfLocation(S,X+DX,Y+DY,T) :- robotLocation(R,X,Y,T-1), carry(R,S,T-1), occurs(object(robot,R), move(DX,DY), T), T=1..m.
+
+% If we were carrying and didnt put down, we should still carry
+:- carry(R,S,T-1), not carry(R,S,T), not putdown(R,S,T), T=1..m.
+
+% uniqueness and existence of shelf location
+:- not {shelfLocation(S,X,Y,T):node(N,X,Y)}=1, shelf(S), T=1..m.
+
+%%%%%%%%%%% PICKUP %%%%%%%%%%%%%
+% pickup is exogenous
+{pickup(R,S,T):shelf(S)}1 :- robot(R), T=1..m.
+occurs(object(robot,R), pickup, T) :- pickup(R,S,T).
+
+% Cant pickup from 2 different robots
+:- 2{pickup(R,S,T):robot(R)}, shelf(S), T=1..m.
+
+% cant pickup a shelf, if you already have one
+:- pickup(R,S,T), carry(R,S,T-1), T=1..m.
+
+% Robot can only pickup if it is in the same location as the shelf
+:- pickup(R,S,T), shelfLocation(S,X1,Y1,T), robotLocation(R,X2,Y2,T), node(N1,X1,Y1), node(N2,X2,Y2), N1!=N2, T=1..m.
+
+% if the shelf is picked up, then it is being carried
+carry(R,S,T) :- pickup(R,S,T), T=1..m.
+
+%%%%%%%%%%% PUTDOWN %%%%%%%%%%%%%%%%
+% putdown is exogenous
+%{putdown(R,S,T):shelf(S)}1 :- robot(R), T=1..m.
 
 %%%%%%%%%%%%%%%% LAWS OF INERTIA %%%%%%%%%%%%%%%%%%%%
 {robotLocation(R,X,Y,T)} :- robotLocation(R,X,Y,T-1), T=1..m.
+{carry(R,S,T)} :- carry(R,S,T-1), T=1..m.
+{shelfLocation(S,X,Y,T)} :- shelfLocation(S,X,Y,T-1), T=1..m.
+
 
 %%%%%%%%%%%%%%%% AXIOMS %%%%%%%%%%%%%%%%%%%%%%%
 % robot can only do one thing at a time
