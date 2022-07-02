@@ -22,15 +22,14 @@ init(object(order,1),value(pickingStation,1)).
 
 %:- not robotLocation(1,1,1,m).
 %:- not shelfLocation(1,1,1,m).
-%:- not orderDetails(_,_,0,m). 
+%:- not orderDetails(1,1,0,m). 
 
-%#show product/1.
 %#show occurs/3.
 %#show carry/3.
 %#show putdown/3.
 %#show pickup/3.
 %#show orderDetails/4.
-%show deliver/6.
+#show deliver/5.
 %#show productOnShelf/4.
 %#show shelfLocation/4.
 %#show robotLocation/4.
